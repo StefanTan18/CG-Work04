@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "ml6.h"
 #include "display.h"
@@ -19,9 +20,11 @@
 void add_circle( struct matrix *edges,
                  double cx, double cy, double cz,
                  double r, double step ) {
-  double t;
+  double t, x, y;
   for (t = 0; t <= 1; t += step) {
-    
+    x = r * cos(2 * M_PI * t) + cx;
+    y = r * sin(2 * M_PI * t) + cy;
+    add_point(edges, x, y, cz); //Doesn't work :/
   }				  
 }
 
