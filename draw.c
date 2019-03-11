@@ -20,11 +20,15 @@
 void add_circle( struct matrix *edges,
                  double cx, double cy, double cz,
                  double r, double step ) {
-  double t, x, y;
+  double t, x0, y0, x1, y1;
   for (t = 0; t <= 1; t += step) {
-    x = r * cos(2 * M_PI * t) + cx;
-    y = r * sin(2 * M_PI * t) + cy;
-    add_point(edges, x, y, cz); //Doesn't work :/
+    
+    x0 = r * cos(2 * M_PI * t) + cx;
+    y0 = r * sin(2 * M_PI * t) + cy;
+    x1 = r * cos(2 * M_PI * (t + step)) + cx;
+    y1 = r * sin(2 * M_PI * (t + step)) + cy;
+    
+    add_edge(edges, x0, y0, cz, x1, y1, cz);
   }				  
 }
 

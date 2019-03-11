@@ -19,15 +19,41 @@
   to generate the coefiecients for a bezier curve
   ====================*/
 struct matrix * make_bezier() {
-    return NULL;
+  struct matrix *t = new_matrix(4, 4);
+  ident(t);
+  t->m[0][0] = -1;
+  t->m[0][1] = 3;
+  t->m[0][2] = -3;
+  t->m[0][3] = 1;
+  t->m[1][0] = 3;
+  t->m[1][1] = -6;
+  t->m[1][2] = 3;
+  t->m[2][0] = -3;
+  t->m[2][1] = 3;
+  t->m[2][2] = 0;
+  t->m[3][0] = 1;
+  t->m[3][3] = 0;
+  return t;
 }
 
 /*======== struct matrix * make_hermite() ==========
   Returns: The correct 4x4 matrix that can be used
-  to generae the coefiecients for a hermite curve
+  to generate the coefiecients for a hermite curve
   ====================*/
 struct matrix * make_hermite() {
-  return NULL;
+  struct matrix *t = new_matrix(4, 4);
+  ident(t);
+  t->m[0][0] = 2;
+  t->m[0][1] = -2;
+  t->m[0][2] = 1;
+  t->m[0][3] = 1;
+  t->m[1][0] = -3;
+  t->m[1][1] = 3;
+  t->m[1][2] = -2;
+  t->m[1][3] = -1;
+  t->m[3][0] = 1;
+  t->m[3][3] = 0;
+  return t;
 }
 
 /*======== struct matrix * generate_curve_coefs() ==========
@@ -45,7 +71,25 @@ struct matrix * make_hermite() {
   ====================*/
 struct matrix * generate_curve_coefs( double p1, double p2,
                                       double p3, double p4, int type) {
-  return NULL;
+  struct matrix * m = new_matrix(4, 1);
+  m->lastcol = 1;
+  m->m[0][0] = p1;
+  m->m[1][0] = p2;
+  m->m[2][0] = p3;
+  m->m[3][0] = p4;
+
+  if (type == BEZIER) {
+    struct matrix * b = make_bezier();
+    matrix_mult(b, m);
+    free_matrix(b)
+  }
+  
+  else if (type == HERMITE) {
+    struct matrix * h = make_hermite();
+    matrix_mult(h, m);
+    free_matrix(h);
+  }
+  return m;
 }
 
 /*======== struct matrix * make_translate() ==========
