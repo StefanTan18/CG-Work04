@@ -81,7 +81,7 @@ struct matrix * generate_curve_coefs( double p1, double p2,
   if (type == BEZIER) {
     struct matrix * b = make_bezier();
     matrix_mult(b, m);
-    free_matrix(b)
+    free_matrix(b);
   }
   
   else if (type == HERMITE) {

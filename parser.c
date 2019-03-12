@@ -86,6 +86,7 @@ void parse_file ( char * filename,
     double yvals[3];
     double zvals[4];
     double circvals[4];
+    double curvvals[8];
     struct matrix *tmp;
     double theta;
     char axis;
@@ -150,6 +151,20 @@ void parse_file ( char * filename,
              circvals, circvals + 1, circvals + 2, circvals + 3);
       add_circle(edges, circvals[0], circvals[1], circvals[2], circvals[3], 0.01);
     }//end circle
+
+    else if ( strncmp(line, "hermite", strlen(line)) == 0 ) {
+      fgets(line, sizeof(line), f);
+      sscanf(line, "%lf %lf %lf %lf %lf %lf %lf %lf",
+             curvvals, curvvals + 1, curvvals + 2, curvvals + 3, curvvals + 4, curvvals + 5, curvvals + 6, curvvals + 7);
+      add_curve(edges, curvvals[0], curvvals[1], curvvals[2], curvvals[3], curvvals[4], curvvals[5], curvvals[6], curvvals[7], 0.01, HERMITE);
+    }//end hermite
+
+    else if ( strncmp(line, "bezier", strlen(line)) == 0 ) {
+      fgets(line, sizeof(line), f);
+      sscanf(line, "%lf %lf %lf %lf %lf %lf %lf %lf",
+             curvvals, curvvals + 1, curvvals + 2, curvvals + 3, curvvals + 4, curvvals + 5, curvvals + 6, curvvals + 7);
+      add_curve(edges, curvvals[0], curvvals[1], curvvals[2], curvvals[3], curvvals[4], curvvals[5], curvvals[6], curvvals[7], 0.01, BEZIER);
+    }//end bezier
     
     else if ( strncmp(line, "ident", strlen(line)) == 0 ) {
       //printf("IDENT\t%s", line);

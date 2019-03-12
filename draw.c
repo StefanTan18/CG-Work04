@@ -55,8 +55,33 @@ void add_curve( struct matrix *edges,
                 double x2, double y2, 
                 double x3, double y3, 
                 double step, int type ) {
-}
+  struct matrix * xcors;
+  struct matrix * ycors;
+  double ax, bx, cx, dx, ay, by, cy, dy;
+  
+  xcors = generate_curve_coefs(x0, x1, x2, x3, type);
+  ycors = generate_curve_coefs(y0, y1, y2, y3, type);
+  
+  ax = xcors->m[0][0];
+  bx = xcors->m[1][0];
+  cx = xcors->m[2][0];
+  dx = xcors->m[3][0];
 
+  ay = ycors->m[0][0];
+  by = ycors->m[1][0];
+  cy = ycors->m[2][0];
+  dy = ycors->m[3][0];
+
+  double t, xstart, ystart, xend, yend;
+  
+  for (t = 0; t < 1; t += step) {
+    xstart = ax * pow(t, 3) + bx * pow(t, 2) + cx * t + dx;
+    ystart = ay * pow(t, 3) + by * pow(t, 2) + cy * t + dy;
+    xend = ax * pow(t + step, 3) + bx * pow(t + step, 2) + cx * (t + step) + dx;
+    yend = ay * pow(t + step, 3) + by * pow(t + step, 2) + cy * (t + step) + dy;
+    add_edge(edges, xstart, ystart, 0, xend, yend, 0);
+  }
+}
 
 /*======== void add_point() ==========
 Inputs:   struct matrix * points
