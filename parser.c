@@ -183,5 +183,21 @@ void parse_file ( char * filename,
       display( s );
     }//end display
 
+    else if (!strcmp(line, "save")) {
+      char *filename;
+
+      filename = malloc(100);
+      fgets(filename, 100, f);
+      filename[strlen(filename)]='\0';
+      
+      clear_screen(s);
+      draw_lines(edges, s, c);
+      save_extension(s, filename);
+      free(filename);
+    }
+    else if (!strcmp(line, "quit")) {
+      fseek(f, 0, SEEK_END);
+    }
+    
   }
 }
